@@ -6,9 +6,11 @@ class DataObj {
         this.loadData(path)
         this.clr = clr
         this.idx = idx
+        this.current = 0
     }
 
-    show(angle) {
+    show(angleX) {
+
         noFill()
         stroke(this.clr)
         this.showPath()
@@ -16,8 +18,10 @@ class DataObj {
         noStroke()
         fill(this.clr)
         this.showDots()
-        fill(_clrs[1])
-        this.showText(angle * -1)
+        // fill(_clrs[1])
+        // this.showText(angleX)
+
+        if (frameCount % 100 == 0) this.current = (this.current + 1) % this.data.length
     }
 
     showPath() {
@@ -69,39 +73,57 @@ class DataObj {
         }
     }
 
-    showText(angle) {
+    showText(angleX) {
         const z = this.idx * _zdiff
-        for (let i = 0; i < this.data.length; i++) {
-            const track = this.data[i].coordinates
-            if (typeof track[0] != "number") {
-                let lastDistance = 0
-                for (let j = 0; j < track.length; j++) {
-                    const point = track[j]
-                    const x = mercX(point[0]) - _cx
-                    const y = mercY(point[1]) - _cy
-                    // if (j > 0) {
-                    // lastDistance = dist(x, y, track[j - 1][0], track[j - 1][1])
-                    // console.log(lastDistance)
-                    // noLoop()
-                    // }
-                    // if (lastDistance > 100) {
-                    push()
-                    translate(x, y, z + i * 10)
-                    rotateX(angle)
-                    text(i, 0, 0)
-                    pop()
-                    // }
-                }
-            } else {
-                const x = mercX(track[0]) - _cx
-                const y = mercY(track[1]) - _cy
+        // for (let i = 0; i < this.data.length; i++) {
+        // const track = this.data[i].coordinates
+        const track = this.data[this.current].coordinates
+        const xoff = 50 + this.current * 20
+        if (typeof track[0] != "number") {
+            let lastDistance = 0
+            for (let j = 0; j < track.length; j++) {
+                const point = track[j]
+                const x = mercX(point[0]) - _cx
+                const y = mercY(point[1]) - _cy
+                // if (j > 0) {
+                // lastDistance = dist(x, y, track[j - 1][0], track[j - 1][1])
+                // console.log(lastDistance)
+                // noLoop()
+                // }
+                // if (lastDistance > 100) {
+                stroke(_clrs[1])
+                noFill()
+                beginShape()
+                vertex(x, y, z)
+                vertex(x + xoff, y, z)
+                endShape()
+                noStroke()
+                fill(_clrs[1])
                 push()
-                translate(x, y, z)
-                rotateX(angle)
-                text(i, 0, 0)
+                translate(x + xoff, y, z)
+                rotateX(angleX)
+                text(this.current, 0, 0)
                 pop()
+                // }
             }
+        } else {
+            const x = mercX(track[0]) - _cx
+            const y = mercY(track[1]) - _cy
+            stroke(_clrs[1])
+            noFill()
+            beginShape()
+            vertex(x, y, z)
+            vertex(x + xoff, y, z)
+            endShape()
+            noStroke()
+            fill(_clrs[1])
+            push()
+            translate(x + xoff, y, z)
+            rotateX(angleX)
+            text(this.current, 0, 0)
+            pop()
         }
+        // }
     }
 
     //————————————————————————————————————————————— loadData

@@ -8,7 +8,7 @@ let _myFont
 let _finnished = false
 const _sw = 0.5
 const _r = Math.pow(2.71828, 1)
-const _totalFrames = 300
+const _totalFrames = 600
 const _clrs = [5, 250,
 	[85, 255, 0], // KOSMIS
 	[0, 255, 85] // MARTIS
@@ -49,7 +49,7 @@ function preload() {
 
 //————————————————————————————————————————————— setup
 function setup() {
-	createCanvas(1024, 1024, WEBGL);
+	createCanvas(1024, 1024, P2D);
 
 	pixelDensity(_pd)
 	frameRate(30)
@@ -81,7 +81,6 @@ function setup() {
 	_cx = mercX(_clon)
 	_cy = mercY(_clan)
 
-	// easy = createEasyCam()
 	strokeWeight(_sw)
 }
 
@@ -89,13 +88,7 @@ function setup() {
 function draw() {
 	background(_clrs[0])
 	// push()
-	// translate(width / 2, height / 2)
-	let percent = (frameCount % _totalFrames) / _totalFrames
-	const angleX = map(sin(percent * TWO_PI), -1, 1, 0, PI / 2)
-	const angleY = map(percent, 0, 1, 0, TWO_PI)
-	_zdiff = map(sin(percent * TWO_PI), -1, 1, 0, 50)
-	rotateX(angleX)
-	// rotateZ(angleY)
+	translate(width / 2, height / 2)
 
 	push()
 	translate(0, 0, 0)
@@ -110,7 +103,11 @@ function draw() {
 	//————————————————————————————————————————————— draw drawPoint
 	for (let i = 0; i < _data.length; i++) {
 		const obj = _data[i]
-		obj.show(angleX)
+		obj.show(angleX * -1)
+		// if (i == _data.length - 1) {
+		// fill(_clrs[1])
+		// obj.showText(angleX * -1)
+		// }
 	}
 
 	noStroke()

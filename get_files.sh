@@ -10,5 +10,4 @@ echo $input_dir
 for i in $input_dir/*; do
       filename="$(basename -- $i)"
       echo $filename
-
 done > $1_data.txt
