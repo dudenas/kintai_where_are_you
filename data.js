@@ -143,20 +143,28 @@ class DataObj {
 
 function loadData() {
     // KOSMIS
-    loadDir('./data/Kosmis/', _clrs[2])
+    loadDir('./data/Kosmis/', 'kosmis_data', _clrs[2])
     // MARTIS
     // loadDir('./data/Martis/', _clrs[3])
 
 }
 
-function loadDir(dir, clr) {
-    $.getJSON(dir, function (data) {
+function loadDir(dir, filename, clr) {
+    loadStrings(filename + '.txt', (data) => {
         for (var i = 0; i < data.length; i++) {
             const path = dir + data[i]
+            console.log(path)
             const obj = new DataObj(path, clr, i)
             _data.push(obj)
         }
     })
+    // $.getJSON(dir, function (data) {
+    //     for (var i = 0; i < data.length; i++) {
+    //         const path = dir + data[i]
+    //         const obj = new DataObj(path, clr, i)
+    //         _data.push(obj)
+    //     }
+    // })
 }
 
 //————————————————————————————————————————————— Helping functions
