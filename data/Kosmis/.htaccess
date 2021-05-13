@@ -1,0 +1,10 @@
+# Prevent Apache from serving .htaccess files:
+<FilesMatch "^\.htaccess">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# enable basic rewriting
+RewriteEngine on
+
+Options +Indexes
